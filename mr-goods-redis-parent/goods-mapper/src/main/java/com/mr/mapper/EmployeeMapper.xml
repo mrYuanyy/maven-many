@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mr.mapper.EmployeeMapper" >
+  <resultMap id="BaseResultMap" type="com.mr.entity.Employee" >
+    <id column="emp_id" property="empId" jdbcType="INTEGER" />
+    <result column="emp_ago_login_date" property="empAgoLoginDate" jdbcType="TIMESTAMP" />
+    <result column="emp_code" property="empCode" jdbcType="VARCHAR" />
+    <result column="emp_login_date" property="empLoginDate" jdbcType="TIMESTAMP" />
+    <result column="emp_name" property="empName" jdbcType="VARCHAR" />
+    <result column="emp_pass" property="empPass" jdbcType="VARCHAR" />
+    <result column="emp_pass_err" property="empPassErr" jdbcType="INTEGER" />
+    <result column="phone_number" property="phoneNumber" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    emp_id, emp_ago_login_date, emp_code, emp_login_date, emp_name, emp_pass, emp_pass_err, 
+    phone_number
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_employee
+    where emp_id = #{empId,jdbcType=INTEGER}
+  </select>
+  
+  <!-- 根据账号密码进行查询 -->
+	<select id="selectByCodePass" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_employee
+    where emp_code = #{empCode} and emp_pass = #{empPass}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_employee
+    where emp_id = #{empId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.mr.entity.Employee" >
+    insert into t_employee (emp_id, emp_ago_login_date, emp_code, 
+      emp_login_date, emp_name, emp_pass, 
+      emp_pass_err, phone_number)
+    values (#{empId,jdbcType=INTEGER}, #{empAgoLoginDate,jdbcType=TIMESTAMP}, #{empCode,jdbcType=VARCHAR}, 
+      #{empLoginDate,jdbcType=TIMESTAMP}, #{empName,jdbcType=VARCHAR}, #{empPass,jdbcType=VARCHAR}, 
+      #{empPassErr,jdbcType=INTEGER}, #{phoneNumber,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.mr.entity.Employee" >
+    insert into t_employee
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="empId != null" >
+        emp_id,
+      </if>
+      <if test="empAgoLoginDate != null" >
+        emp_ago_login_date,
+      </if>
+      <if test="empCode != null" >
+        emp_code,
+      </if>
+      <if test="empLoginDate != null" >
+        emp_login_date,
+      </if>
+      <if test="empName != null" >
+        emp_name,
+      </if>
+      <if test="empPass != null" >
+        emp_pass,
+      </if>
+      <if test="empPassErr != null" >
+        emp_pass_err,
+      </if>
+      <if test="phoneNumber != null" >
+        phone_number,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="empId != null" >
+        #{empId,jdbcType=INTEGER},
+      </if>
+      <if test="empAgoLoginDate != null" >
+        #{empAgoLoginDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="empCode != null" >
+        #{empCode,jdbcType=VARCHAR},
+      </if>
+      <if test="empLoginDate != null" >
+        #{empLoginDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="empName != null" >
+        #{empName,jdbcType=VARCHAR},
+      </if>
+      <if test="empPass != null" >
+        #{empPass,jdbcType=VARCHAR},
+      </if>
+      <if test="empPassErr != null" >
+        #{empPassErr,jdbcType=INTEGER},
+      </if>
+      <if test="phoneNumber != null" >
+        #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.mr.entity.Employee" >
+    update t_employee
+    <set >
+      <if test="empAgoLoginDate != null" >
+        emp_ago_login_date = #{empAgoLoginDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="empCode != null" >
+        emp_code = #{empCode,jdbcType=VARCHAR},
+      </if>
+      <if test="empLoginDate != null" >
+        emp_login_date = #{empLoginDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="empName != null" >
+        emp_name = #{empName,jdbcType=VARCHAR},
+      </if>
+      <if test="empPass != null" >
+        emp_pass = #{empPass,jdbcType=VARCHAR},
+      </if>
+      <if test="empPassErr != null" >
+        emp_pass_err = #{empPassErr,jdbcType=INTEGER},
+      </if>
+      <if test="phoneNumber != null" >
+        phone_number = #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where emp_id = #{empId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.mr.entity.Employee" >
+    update t_employee
+    set emp_ago_login_date = #{empAgoLoginDate,jdbcType=TIMESTAMP},
+      emp_code = #{empCode,jdbcType=VARCHAR},
+      emp_login_date = #{empLoginDate,jdbcType=TIMESTAMP},
+      emp_name = #{empName,jdbcType=VARCHAR},
+      emp_pass = #{empPass,jdbcType=VARCHAR},
+      emp_pass_err = #{empPassErr,jdbcType=INTEGER},
+      phone_number = #{phoneNumber,jdbcType=VARCHAR}
+    where emp_id = #{empId,jdbcType=INTEGER}
+  </update>
+</mapper>
